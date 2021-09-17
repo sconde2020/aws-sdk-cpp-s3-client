@@ -80,17 +80,25 @@ bool putObject(const Aws::String& bucketName,
     }
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+    if (argc < 4) 
+    {
+        std::cout << "Usage: " << argv[0]
+           << " bucket_name file_name bucket_region" 
+           << std::endl;
+        return 1;
+    }
+
     Aws::SDKOptions options;
     Aws::InitAPI(options);
     {
-        //TODO: Change bucket_name to the name of a bucket in your account.
-        const Aws::String bucket_name = "souleybucket/test";
-        //TODO: Create a file called "my-file.txt" in the local folder where your executables are built to.
-        const Aws::String object_name = "my-file.txt";
-        //TODO: Set to the AWS Region in which the bucket was created.
-        const Aws::String region = "eu-west-3";
+        // The name of a bucket in your account.
+        const Aws::String bucket_name = argv[1];
+        // The name of the file to be loaded into the bucket. 
+        const Aws::String object_name = argv[2];
+        // The AWS Region in which the bucket was created.
+        const Aws::String region = argv[3];
 
         if (!putObject(bucket_name, object_name, region)) {
             
